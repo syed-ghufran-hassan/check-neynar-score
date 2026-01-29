@@ -49,6 +49,10 @@ contract DailyClaim is Ownable, ReentrancyGuard {
      * @return bool Whether the address is eligible
      */
     function isEligibleForClaim(address _user) public view returns (bool) {
+        if (lastClaimTime[_user] == 0) {
+        return true; // First claim is always allowed
+       }
+
         // Check if 24 hours (86400 seconds) have passed since the last claim
         return (block.timestamp - lastClaimTime[_user]) >= 1 days;
     }
